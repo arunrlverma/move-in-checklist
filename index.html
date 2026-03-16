@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Move-In Checklist</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #0a0a1a;
+    --surface: rgba(255,255,255,0.04);
+    --surface2: rgba(255,255,255,0.07);
+    --border: rgba(255,255,255,0.08);
+    --text: #f0f0f5;
+    --text-dim: #7a7a9a;
+    --text-mid: #b0b0cc;
+    --accent: #4f8cff;
+    --accent2: #00cec9;
+    --accent3: #fd79a8;
+    --accent4: #fdcb6e;
+    --accent5: #a29bfe;
+    --accent6: #55efc4;
+    --glow: rgba(79, 140, 255, 0.25);
+    --glow2: rgba(0, 206, 201, 0.25);
+    --glow3: rgba(253, 121, 168, 0.25);
+    --success: #00b894;
+    --success-glow: rgba(0, 184, 148, 0.3);
+  }
+
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* Animated background */
+  .bg-art {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .bg-art .orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(140px);
+    opacity: 0.3;
+    animation: orbFloat 25s ease-in-out infinite;
+  }
+  .orb-1 { width: 600px; height: 600px; background: var(--accent); top: -15%; left: -10%; animation-delay: 0s; }
+  .orb-2 { width: 500px; height: 500px; background: var(--accent3); bottom: -10%; right: -10%; animation-delay: -8s; }
+  .orb-3 { width: 400px; height: 400px; background: var(--accent2); top: 40%; left: 50%; animation-delay: -16s; }
+
+  @keyframes orbFloat {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(40px, -30px) scale(1.05); }
+    66% { transform: translate(-20px, 20px) scale(0.95); }
+  }
+
+  /* Grid pattern overlay */
+  .grid-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 4rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Hero */
+  .hero {
+    text-align: center;
+    padding: 4rem 0 3rem;
+    position: relative;
+  }
+  .hero-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 1.5rem;
+    border-radius: 24px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.2rem;
+    box-shadow: 0 12px 40px var(--glow);
+    animation: heroGlow 3s ease-in-out infinite alternate;
+  }
+  @keyframes heroGlow {
+    from { box-shadow: 0 12px 40px var(--glow); }
+    to { box-shadow: 0 16px 60px var(--glow2); }
+  }
+  .hero h1 {
+    font-size: 2.4rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(135deg, #fff 0%, var(--accent) 50%, var(--accent2) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero-sub {
+    color: var(--text-dim);
+    font-size: 1rem;
+    font-weight: 400;
+  }
+  .hero-sub strong { color: var(--text-mid); font-weight: 600; }
+
+  /* Progress bar */
+  .progress-wrap {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(10, 10, 26, 0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    padding: 0.75rem 0;
+    margin: 0 -1.5rem;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+  .progress-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .progress-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-dim);
+    white-space: nowrap;
+  }
+  .progress-bar {
+    flex: 1;
+    height: 6px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--accent), var(--accent2), var(--accent6));
+    border-radius: 3px;
+    transition: width 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+    box-shadow: 0 0 12px var(--glow);
+  }
+  .progress-count {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--accent);
+    min-width: 55px;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Info cards */
+  .info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+    margin: 2rem 0;
+  }
+  .info-card {
+    border-radius: 16px;
+    padding: 1.25rem;
+    background: var(--surface);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border);
+    transition: all 0.3s ease;
+  }
+  .info-card:hover {
+    border-color: rgba(79, 140, 255, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(79, 140, 255, 0.08);
+  }
+  .info-card-icon {
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+  }
+  .info-card-label {
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--text-dim);
+    margin-bottom: 0.25rem;
+  }
+  .info-card-value {
+    font-size: 0.95rem;
+    font-weight: 600;
+  }
+
+  /* Section */
+  .section {
+    margin-top: 3rem;
+  }
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-num {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    font-weight: 800;
+    flex-shrink: 0;
+    color: #fff;
+  }
+  .s1 .section-num { background: linear-gradient(135deg, var(--accent), #6c5ce7); box-shadow: 0 4px 20px var(--glow); }
+  .s2 .section-num { background: linear-gradient(135deg, var(--accent2), #00b894); box-shadow: 0 4px 20px var(--glow2); }
+  .s3 .section-num { background: linear-gradient(135deg, var(--accent3), #e17055); box-shadow: 0 4px 20px var(--glow3); }
+  .s4 .section-num { background: linear-gradient(135deg, var(--accent4), #e17055); box-shadow: 0 4px 20px rgba(253, 203, 110, 0.25); }
+  .s5 .section-num { background: linear-gradient(135deg, var(--accent5), var(--accent)); box-shadow: 0 4px 20px rgba(162, 155, 254, 0.25); }
+  .s6 .section-num { background: linear-gradient(135deg, var(--accent6), var(--accent2)); box-shadow: 0 4px 20px rgba(85, 239, 196, 0.25); }
+
+  .section-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+  .section-progress {
+    margin-left: auto;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-dim);
+    background: var(--surface2);
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Subsection */
+  .subsection {
+    margin: 1.5rem 0 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .subsection-icon { font-size: 1rem; }
+  .subsection h3 {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-mid);
+  }
+
+  /* Checklist items */
+  .checklist {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .check-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    border-radius: 12px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    user-select: none;
+  }
+  .check-item:hover {
+    background: var(--surface2);
+    border-color: rgba(79, 140, 255, 0.2);
+  }
+  .check-item.checked {
+    background: rgba(0, 184, 148, 0.06);
+    border-color: rgba(0, 184, 148, 0.2);
+  }
+  .check-item.checked .check-box {
+    background: var(--success);
+    border-color: var(--success);
+    box-shadow: 0 0 12px var(--success-glow);
+  }
+  .check-item.checked .check-box svg { opacity: 1; transform: scale(1); }
+  .check-item.checked .check-text { color: var(--text-dim); }
+
+  .check-box {
+    width: 22px;
+    height: 22px;
+    min-width: 22px;
+    border-radius: 6px;
+    border: 2px solid rgba(255,255,255,0.15);
+    background: rgba(255,255,255,0.03);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    margin-top: 1px;
+  }
+  .check-box svg {
+    width: 13px;
+    height: 13px;
+    opacity: 0;
+    transform: scale(0.5);
+    transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .check-text {
+    font-size: 0.88rem;
+    line-height: 1.5;
+    transition: color 0.3s ease;
+  }
+
+  /* Note about item */
+  .check-note {
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    margin-top: 0.2rem;
+  }
+
+  /* Notes area */
+  .notes-block {
+    margin: 1rem 0;
+  }
+  .notes-label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-mid);
+    margin-bottom: 0.5rem;
+  }
+  .notes-area {
+    width: 100%;
+    min-height: 120px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1rem;
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.85rem;
+    line-height: 1.6;
+    resize: vertical;
+    outline: none;
+    transition: border-color 0.3s ease;
+  }
+  .notes-area:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--glow); }
+  .notes-area::placeholder { color: var(--text-dim); }
+
+  /* Contacts table */
+  .contacts-grid {
+    display: grid;
+    gap: 0.75rem;
+  }
+  .contact-row {
+    display: grid;
+    grid-template-columns: 56px 1fr auto;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.25rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    transition: all 0.3s ease;
+  }
+  .contact-row:hover {
+    border-color: rgba(79, 140, 255, 0.2);
+    transform: translateY(-1px);
+  }
+  .contact-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+  }
+  .contact-name { font-weight: 600; font-size: 0.9rem; }
+  .contact-detail { font-size: 0.8rem; color: var(--text-dim); }
+  .contact-badge {
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 0.3rem 0.75rem;
+    border-radius: 20px;
+    background: var(--surface2);
+    color: var(--text-dim);
+  }
+
+  /* Signature section */
+  .sig-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+  }
+  .sig-card {
+    padding: 1.5rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    text-align: center;
+  }
+  .sig-role {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--text-dim);
+    margin-bottom: 1.5rem;
+  }
+  .sig-line {
+    border-bottom: 2px dashed rgba(255,255,255,0.12);
+    margin-bottom: 0.5rem;
+    height: 50px;
+  }
+  .sig-name {
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+  }
+  .sig-date {
+    font-size: 0.75rem;
+    color: var(--text-dim);
+  }
+
+  /* Celebration overlay */
+  .celebration {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(10, 10, 26, 0.9);
+    backdrop-filter: blur(20px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+  }
+  .celebration.active { opacity: 1; pointer-events: auto; }
+  .celebration-content {
+    text-align: center;
+    transform: scale(0.8);
+    transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .celebration.active .celebration-content { transform: scale(1); }
+  .celebration-icon { font-size: 4rem; margin-bottom: 1rem; }
+  .celebration h2 {
+    font-size: 2rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(135deg, var(--accent6), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .celebration p { color: var(--text-dim); font-size: 1rem; }
+  .celebration-close {
+    margin-top: 1.5rem;
+    padding: 0.6rem 2rem;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  .celebration-close:hover { background: var(--accent); border-color: var(--accent); }
+
+  /* Print styles */
+  @media print {
+    body { background: #fff; color: #111; }
+    .bg-art, .grid-overlay, .progress-wrap, .celebration { display: none; }
+    .check-item, .info-card, .contact-row, .sig-card { border-color: #ccc; background: #fff; }
+    .section-num { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+  }
+
+  /* Responsive */
+  @media (max-width: 640px) {
+    .hero h1 { font-size: 1.6rem; }
+    .info-grid { grid-template-columns: 1fr 1fr; }
+    .sig-grid { grid-template-columns: 1fr; }
+    .container { padding: 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-art">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+</div>
+<div class="grid-overlay"></div>
+
+<!-- Progress Bar -->
+<div class="progress-wrap">
+  <div class="progress-inner">
+    <div class="progress-label">Move-In Progress</div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="progress-count" id="progressCount">0 / 0</div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hero-icon">🏠</div>
+    <h1>Move-In Checklist</h1>
+    <p class="hero-sub"><strong>[Property Address]</strong> &bull; [Neighborhood, City]</p>
+    <p class="hero-sub" style="margin-top: 0.25rem;">2 Bed / 1 Bath &bull; 743 sq ft &bull; Built 2016</p>
+  </div>
+
+  <!-- Property Info Cards -->
+  <div class="info-grid">
+    <div class="info-card">
+      <div class="info-card-icon">👤</div>
+      <div class="info-card-label">Tenants</div>
+      <div class="info-card-value">[Tenant Names]</div>
+    </div>
+    <div class="info-card">
+      <div class="info-card-icon">📅</div>
+      <div class="info-card-label">Move-In Date</div>
+      <div class="info-card-value">[Move-In Date]</div>
+    </div>
+    <div class="info-card">
+      <div class="info-card-icon">💰</div>
+      <div class="info-card-label">Monthly Rent</div>
+      <div class="info-card-value">[Rent Amount]</div>
+    </div>
+    <div class="info-card">
+      <div class="info-card-icon">🔑</div>
+      <div class="info-card-label">Landlord</div>
+      <div class="info-card-value">[Landlord Name]</div>
+    </div>
+    <div class="info-card">
+      <div class="info-card-icon">🏢</div>
+      <div class="info-card-label">HOA</div>
+      <div class="info-card-value">[HOA Name]</div>
+    </div>
+    <div class="info-card">
+      <div class="info-card-icon">⏰</div>
+      <div class="info-card-label">Rent Due</div>
+      <div class="info-card-value">1st (late after 5th)</div>
+    </div>
+  </div>
+
+  <!-- SECTION 1: PRE-MOVE-IN -->
+  <div class="section s1" data-section="1">
+    <div class="section-header">
+      <div class="section-num">1</div>
+      <div class="section-title">Pre-Move-In</div>
+      <div class="section-progress" data-section-progress="1"></div>
+    </div>
+
+    <div class="subsection"><span class="subsection-icon">📄</span><h3>Documents & Insurance</h3></div>
+    <ul class="checklist">
+      <li class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div><div class="check-text">Sign and return the Lease Agreement</div></div>
+      </li>
+      <li class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div><div class="check-text">Fill out and return the Resident Information Form</div><div class="check-note">Required by the HOA for all new residents</div></div>
+      </li>
+      <li class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div><div class="check-text">Obtain renter's insurance (minimum $100,000 liability)</div></div>
+      </li>
+      <li class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div><div class="check-text">Send proof of renter's insurance to landlord</div></div>
+      </li>
+    </ul>
+
+    <div class="subsection"><span class="subsection-icon">🗓️</span><h3>Scheduling</h3></div>
+    <ul class="checklist">
+      <li class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div><div class="check-text">Confirm move-in date and time with landlord</div></div>
+      </li>
+      <li class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div><div class="check-text">Move-in scheduled with property management</div><div class="check-note">Must be at least 7 business days in advance</div></div>
+      </li>
+      <li class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div><div class="check-text">Share Move-In Procedures with your moving company</div></div>
+      </li>
+    </ul>
+
+    <div class="subsection"><span class="subsection-icon">🚚</span><h3>Moving Company Requirements</h3></div>
+    <ul class="checklist">
+      <li class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div><div class="check-text">Confirm move is scheduled Mon–Sat, 8:00 AM – 6:00 PM</div><div class="check-note">4-hour block required</div></div>
+      </li>
+      <li class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div><div class="check-text">Moving company will bring protective coverings for elevator</div><div class="check-note">This is mandatory — movers cannot use elevator without them</div></div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- SECTION 2: MOVE-IN DAY -->
+  <div class="section s2" data-section="2">
+    <div class="section-header">
+      <div class="section-num">2</div>
+      <div class="section-title">Move-In Day</div>
+      <div class="section-progress" data-section-progress="2"></div>
+    </div>
+
+    <div class="subsection"><span class="subsection-icon">🔑</span><h3>Access & Keys</h3></div>
+    <ul class="checklist">
+      <li class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div><div class="check-text">Receive building FOB from property management</div></div>
+      </li>
+      <li class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div><div class="check-text">Test FOB on all building access points</div><div class="check-note">Front door, garage, mail room</div></div>
+      </li>
+      <li class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div><div class="check-text">Receive unit keys from landlord</div></div>
+      </li>
+      <li class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div><div class="check-text">Test all unit door locks</div></div>
+      </li>
+    </ul>
+
+    <div class="subsection"><span class="subsection-icon">🔍</span><h3>Unit Condition Walk-Through</h3></div>
+    <ul class="checklist">
+      <li class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div><div class="check-text">Living room / dining area inspected</div></div>
+      </li>
+      <li class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div><div class="check-text">Kitchen inspected</div></div>
+      </li>
+      <li class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div><div class="check-text">Primary bedroom inspected</div></div>
+      </li>
+      <li class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div><div class="check-text">Second bedroom inspected</div></div>
+      </li>
+      <li class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div><div class="check-text">Bathroom inspected</div></div>
+      </li>
+      <li class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div><div class="check-text">Hallway, entry & closets inspected</div></div>
+      </li>
+      <li class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div><div class="check-text">All walls, ceilings, and floors documented</div></div>
+      </li>
+      <li class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div><div class="check-text">All windows open and close properly</div></div>
+      </li>
+    </ul>
+
+    <div class="notes-block">
+      <div class="notes-label">Notes / Pre-Existing Conditions</div>
+      <textarea class="notes-area" placeholder="Document any scratches, marks, damage, or issues found during the walk-through..."></textarea>
+    </div>
+
+    <div class="subsection"><span class="subsection-icon">⚡</span><h3>Appliances & Systems</h3></div>
+    <ul class="checklist">
+      <li class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div><div class="check-text">Electric range / stovetop works</div></div>
+      </li>
+      <li class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div><div class="check-text">Refrigerator running and cooling</div></div>
+      </li>
+      <li class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div><div class="check-text">Dishwasher runs a cycle</div></div>
+      </li>
+      <li class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div><div class="check-text">Garbage disposal works</div></div>
+      </li>
+      <li class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div><div class="check-text">Hood / exhaust fan works</div></div>
+      </li>
+      <li class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div><div class="check-text">Washer runs a cycle</div></div>
+      </li>
+      <li class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div><div class="check-text">Dryer runs and heats</div></div>
+      </li>
+      <li class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div><div class="check-text">HVAC / heating system works</div></div>
+      </li>
+      <li class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div><div class="check-text">All light switches and outlets work</div></div>
+      </li>
+      <li class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div><div class="check-text">Smoke detectors tested</div></div>
+      </li>
+      <li class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div><div class="check-text">CO detector tested</div></div>
+      </li>
+    </ul>
+
+    <div class="subsection"><span class="subsection-icon">💡</span><h3>Utilities</h3></div>
+    <ul class="checklist">
+      <li class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div><div class="check-text">PG&E account transferred to tenant name</div></div>
+      </li>
+      <li class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div><div class="check-text">Internet service set up or scheduled</div></div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- SECTION 3: BUILDING RULES -->
+  <div class="section s3" data-section="3">
+    <div class="section-header">
+      <div class="section-num">3</div>
+      <div class="section-title">Building Rules Acknowledgment</div>
+      <div class="section-progress" data-section-progress="3"></div>
+    </div>
+    <p style="color: var(--text-dim); font-size: 0.85rem; margin-bottom: 1rem;">By checking each box, you confirm that you have read and agree to follow these rules as outlined in the HOA Governing Documents and your Lease Agreement.</p>
+
+    <ul class="checklist">
+      <li class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div><div class="check-text">Quiet hours after 10:00 PM</div><div class="check-note">Keep noise to a minimum in the unit and common areas</div></div>
+      </li>
+      <li class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div><div class="check-text">Smoking inside the unit only</div><div class="check-note">Not permitted on balconies, hallways, or common areas</div></div>
+      </li>
+      <li class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div><div class="check-text">Trash disposal rules</div><div class="check-note">Floor chutes with tri-sorters (garbage, recycling, compost). Plastic bags only, max 17 gal. Break down boxes for dumpster.</div></div>
+      </li>
+      <li class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div><div class="check-text">Roof deck rules</div><div class="check-note">Open to all residents. Clean up after use, keep noise reasonable.</div></div>
+      </li>
+      <li class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div><div class="check-text">Pet policy acknowledged</div><div class="check-note">Max 2 pets (dogs or cats). Must be leashed in all common areas.</div></div>
+      </li>
+      <li class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div><div class="check-text">No Airbnb, short-term rentals, or subleasing</div></div>
+      </li>
+      <li class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div><div class="check-text">Keep all building doors closed and locked</div></div>
+      </li>
+      <li class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div><div class="check-text">Move-in/out coordinated through property management</div></div>
+      </li>
+      <li class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div><div class="check-text">No personal items left in hallways or common areas</div></div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- SECTION 4: FIRST WEEK -->
+  <div class="section s4" data-section="4">
+    <div class="section-header">
+      <div class="section-num">4</div>
+      <div class="section-title">Post-Move-In (First Week)</div>
+      <div class="section-progress" data-section-progress="4"></div>
+    </div>
+
+    <div class="subsection"><span class="subsection-icon">💳</span><h3>Payments & Insurance</h3></div>
+    <ul class="checklist">
+      <li class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div><div class="check-text">Set up autopay for monthly rent ([Rent Amount] due on the 1st)</div></div>
+      </li>
+      <li class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div><div class="check-text">Confirm renter's insurance policy is active and on file</div></div>
+      </li>
+    </ul>
+
+    <div class="subsection"><span class="subsection-icon">🛡️</span><h3>Safety & Emergency Preparedness</h3></div>
+    <ul class="checklist">
+      <li class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div><div class="check-text">Save landlord's contact number</div></div>
+      </li>
+      <li class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div><div class="check-text">Save building management contact</div><div class="check-note">[Management Company] ([Property Manager])</div></div>
+      </li>
+      <li class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div><div class="check-text">Save SF non-emergency number: [Non-Emergency #]</div></div>
+      </li>
+      <li class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div><div class="check-text">Locate fire exits on your floor</div></div>
+      </li>
+      <li class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div><div class="check-text">Locate nearest fire extinguisher</div></div>
+      </li>
+      <li class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div><div class="check-text">Review building evacuation plan</div></div>
+      </li>
+    </ul>
+
+    <div class="subsection"><span class="subsection-icon">📦</span><h3>Getting Settled</h3></div>
+    <ul class="checklist">
+      <li class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div><div class="check-text">Register vehicles with building management (if applicable)</div></div>
+      </li>
+      <li class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div><div class="check-text">Register pets with building management (if applicable)</div></div>
+      </li>
+      <li class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div><div class="check-text">Set up mail forwarding to new address</div></div>
+      </li>
+      <li class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div><div class="check-text">Update address with bank, employer, DMV, etc.</div></div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- SECTION 5: CONTACTS -->
+  <div class="section s5" data-section="5">
+    <div class="section-header">
+      <div class="section-num">5</div>
+      <div class="section-title">Important Contacts</div>
+    </div>
+
+    <div class="contacts-grid">
+      <div class="contact-row">
+        <div class="contact-icon" style="background: linear-gradient(135deg, rgba(79,140,255,0.2), rgba(108,92,231,0.2));">🔑</div>
+        <div>
+          <div class="contact-name">[Landlord Name]</div>
+          <div class="contact-detail">Landlord — [Property Address]</div>
+        </div>
+        <div class="contact-badge">Landlord</div>
+      </div>
+      <div class="contact-row">
+        <div class="contact-icon" style="background: linear-gradient(135deg, rgba(0,206,201,0.2), rgba(0,184,148,0.2));">🏢</div>
+        <div>
+          <div class="contact-name">[Management Company]</div>
+          <div class="contact-detail">[Property Manager] — Move-in/out coordination</div>
+        </div>
+        <div class="contact-badge">Management</div>
+      </div>
+      <div class="contact-row">
+        <div class="contact-icon" style="background: linear-gradient(135deg, rgba(253,121,168,0.2), rgba(225,112,85,0.2));">🚨</div>
+        <div>
+          <div class="contact-name">Emergency Services</div>
+          <div class="contact-detail">911 — Fire, police, medical</div>
+        </div>
+        <div class="contact-badge">Emergency</div>
+      </div>
+      <div class="contact-row">
+        <div class="contact-icon" style="background: linear-gradient(135deg, rgba(253,203,110,0.2), rgba(225,112,85,0.2));">📞</div>
+        <div>
+          <div class="contact-name">SF Non-Emergency</div>
+          <div class="contact-detail">[Non-Emergency #] — Noise, parking, etc.</div>
+        </div>
+        <div class="contact-badge">City</div>
+      </div>
+      <div class="contact-row">
+        <div class="contact-icon" style="background: linear-gradient(135deg, rgba(162,155,254,0.2), rgba(79,140,255,0.2));">⚡</div>
+        <div>
+          <div class="contact-name">PG&E</div>
+          <div class="contact-detail">(800) 743-5000 — Gas & electric</div>
+        </div>
+        <div class="contact-badge">Utility</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 6: SIGNATURES -->
+  <div class="section s6" data-section="6">
+    <div class="section-header">
+      <div class="section-num">6</div>
+      <div class="section-title">Signatures</div>
+    </div>
+    <p style="color: var(--text-dim); font-size: 0.85rem; margin-bottom: 1rem;">By signing below, all parties confirm that this move-in checklist has been completed, the unit condition has been documented, and the building rules have been acknowledged.</p>
+
+    <div class="sig-grid">
+      <div class="sig-card">
+        <div class="sig-role">Tenant 1</div>
+        <div class="sig-line"></div>
+        <div class="sig-name">[Tenant 1]</div>
+        <div class="sig-date">Date: _______________</div>
+      </div>
+      <div class="sig-card">
+        <div class="sig-role">Tenant 2</div>
+        <div class="sig-line"></div>
+        <div class="sig-name">[Tenant 2]</div>
+        <div class="sig-date">Date: _______________</div>
+      </div>
+      <div class="sig-card">
+        <div class="sig-role">Landlord</div>
+        <div class="sig-line"></div>
+        <div class="sig-name">[Landlord Name]</div>
+        <div class="sig-date">Date: _______________</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Celebration -->
+<div class="celebration" id="celebration">
+  <div class="celebration-content">
+    <div class="celebration-icon">🎉</div>
+    <h2>All Done!</h2>
+    <p>Every item on the move-in checklist is complete.<br>Welcome to [Property]!</p>
+    <button class="celebration-close" onclick="closeCelebration()">Close</button>
+  </div>
+</div>
+
+<script>
+  const STORAGE_KEY = 'move-in-checklist';
+
+  function saveState() {
+    const items = document.querySelectorAll('.check-item');
+    const state = [];
+    items.forEach((el, i) => state.push(el.classList.contains('checked')));
+    const notes = document.querySelector('.notes-area');
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ checked: state, notes: notes ? notes.value : '' }));
+  }
+
+  function loadState() {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return;
+    try {
+      const state = JSON.parse(raw);
+      const items = document.querySelectorAll('.check-item');
+      if (state.checked) {
+        state.checked.forEach((val, i) => { if (val && items[i]) items[i].classList.add('checked'); });
+      }
+      const notes = document.querySelector('.notes-area');
+      if (state.notes && notes) notes.value = state.notes;
+    } catch(e) {}
+  }
+
+  function toggleCheck(el) {
+    el.classList.toggle('checked');
+    updateProgress();
+    saveState();
+  }
+
+  function updateProgress() {
+    const all = document.querySelectorAll('.check-item');
+    const done = document.querySelectorAll('.check-item.checked');
+    const total = all.length;
+    const checked = done.length;
+    const pct = total > 0 ? (checked / total) * 100 : 0;
+
+    document.getElementById('progressFill').style.width = pct + '%';
+    document.getElementById('progressCount').textContent = checked + ' / ' + total;
+
+    // Section progress
+    document.querySelectorAll('[data-section]').forEach(sec => {
+      const num = sec.dataset.section;
+      const secAll = sec.querySelectorAll('.check-item');
+      const secDone = sec.querySelectorAll('.check-item.checked');
+      const badge = sec.querySelector('[data-section-progress]');
+      if (badge && secAll.length > 0) {
+        badge.textContent = secDone.length + ' / ' + secAll.length;
+        if (secDone.length === secAll.length) {
+          badge.style.background = 'rgba(0, 184, 148, 0.15)';
+          badge.style.color = '#00b894';
+        } else {
+          badge.style.background = '';
+          badge.style.color = '';
+        }
+      }
+    });
+
+    // Celebration
+    if (checked === total && total > 0) {
+      setTimeout(() => {
+        document.getElementById('celebration').classList.add('active');
+      }, 600);
+    }
+  }
+
+  function closeCelebration() {
+    document.getElementById('celebration').classList.remove('active');
+  }
+
+  // Auto-save notes
+  const notesArea = document.querySelector('.notes-area');
+  if (notesArea) {
+    notesArea.addEventListener('input', () => { saveState(); });
+  }
+
+  // Init
+  loadState();
+  updateProgress();
+</script>
+
+</body>
+</html>
